@@ -20,7 +20,7 @@ public class BlogService {
 
     //metodo che crea un nuovo blog post
     public Blog saveBlog(NewBlogPayload payload) {
-        Blog newBlog = new Blog(payload.getCategorie(), payload.getTitle(), payload.getCover(), payload.getContent(), payload.getRead_time());
+        Blog newBlog = new Blog(payload.getCategorie(), payload.getTitle(), payload.getCover(), payload.getContent(), payload.getReading_time());
         this.blogDB.add(newBlog);
         log.info("Il blog " + newBlog.getTitle() + " è stato aggiunto al database!");
         return newBlog;
@@ -38,7 +38,7 @@ public class BlogService {
     }
 
     //metodo che aggiorna un blog post specifico
-    public Blog findByIdAndUpdate(long blogId, NewBlogPayload payload) {
+    public Blog findByIdAndUpdate(UUID blogId, NewBlogPayload payload) {
         Blog found = null;
         for (Blog blog : this.blogDB) {
             if (blog.getId() == blogId) {
@@ -47,7 +47,7 @@ public class BlogService {
                 found.setTitle(payload.getTitle());
                 found.setCover(payload.getCover());
                 found.setContent(payload.getContent());
-                found.setRead_time(payload.getRead_time());
+                found.setReading_time(payload.getReading_time());
             }
         }
 
@@ -56,7 +56,7 @@ public class BlogService {
     }
 
     //metodo che elimina un blog post specifico
-    public void findByIdAndDelete(long blogId) {
+    public void findByIdAndDelete(UUID blogId) {
         Blog found = null;
         for (Blog blog : this.blogDB) {
             if (blog.getId() == blogId) found = blog;

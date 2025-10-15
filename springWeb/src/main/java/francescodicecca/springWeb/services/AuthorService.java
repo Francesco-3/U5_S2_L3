@@ -48,30 +48,18 @@ public class AuthorService {
             );
         }
 
-        // 3. Modifico l'utente trovato nel db
         found.setName(payload.getName());
         found.setSurname(payload.getSurname());
         found.setEmail(payload.getEmail());
-        found.setPassword(payload.getPassword());
-        found.setAvatarURL("https://ui-avatars.com/api/?name=" + payload.getName() + "+" + payload.getSurname());
+        found.setAvatar("https://ui-avatars.com/api/?name=" + payload.getName() + "+" + payload.getSurname());
 
-        // 4. Salvo
-        User modifiedUser = this.usersRepository.save(found);
-
-        // 5. Log
-        log.info("L'utente con id " + modifiedUser.getId() + " è stato modificato correttamente");
-
-        // 6. Return dell'utente modificato
-        return modifiedUser;
+        Author modifiedAuthor = this.authorsRepository.save(found);
+        log.info("L'utente con id " + modifiedAuthor.getId() + " è stato modificato correttamente");
+        return modifiedAuthor;
     }
 
-    public void findAuthorByIdAndDelete(long authorId) {
-        Author found = null;
-        for (Author author : this.authorDB) {
-            if (author.getId() == authorId) found = author;
-        }
-
-        if (found == null) throw new NotFoundException(authorId);
-        this.authorDB.remove(found);
+    public void findAuthorByIdAndDelete(UUID authorId) {
+        Author found = this.findAuthorById(authorId);
+        this.authorsRepository.delete(found);
     }
 }
